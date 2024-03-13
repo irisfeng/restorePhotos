@@ -17,7 +17,7 @@ import appendNewToName from '../utils/appendNewToName';
 import downloadPhoto from '../utils/downloadPhoto';
 import NSFWFilter from 'nsfw-filter';
 import va from '@vercel/analytics';
-import { useSession, signIn } from 'next-auth/react';
+// import { useSession, signIn } from 'next-auth/react';
 import useSWR from 'swr';
 import { Rings } from 'react-loader-spinner';
 
@@ -32,7 +32,7 @@ const Home: NextPage = () => {
 
   // const fetcher = (url: string) => fetch(url).then((res) => res.json());
   // const { data, mutate } = useSWR('/api/remaining', fetcher);
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
   const options: UploadWidgetConfig = {
     apiKey: !!process.env.NEXT_PUBLIC_UPLOAD_API_KEY
@@ -169,44 +169,11 @@ const Home: NextPage = () => {
               restored={restoredImage!}
             />
           )}
-          {status === 'loading' ? (
-            <div className="max-w-[670px] h-[250px] flex justify-center items-center">
-              <Rings
-                height="100"
-                width="100"
-                color="black"
-                radius="6"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel="rings-loading"
-              />
-            </div>
-          ) :  !originalPhoto ? (
-            <UploadDropZone />
-          ) : (
-            !originalPhoto && (
-              <div className="h-[250px] flex flex-col items-center space-y-6 max-w-[670px] -mt-8">
-                {/* <div className="max-w-xl text-gray-600">
-                  Sign in below with Google to create a free account and restore
-                  your photos today. You will be able to restore 5 photos per
-                  day for free.
-                </div>
-                <button
-                  onClick={() => signIn('google')}
-                  className="bg-gray-200 text-black font-semibold py-3 px-6 rounded-2xl flex items-center space-x-2"
-                >
-                  <Image
-                    src="/google.png"
-                    width={20}
-                    height={20}
-                    alt="google's logo"
-                  />
-                  <span>Sign in with Google</span>
-                </button> */}
-              </div>
-            )
-          )}
+          
+          {!originalPhoto && (
+              <UploadDropZone />
+            ) 
+          }
           {originalPhoto && !restoredImage && (
             <Image
               alt="original photo"
