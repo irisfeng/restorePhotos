@@ -30,8 +30,8 @@ const Home: NextPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [photoName, setPhotoName] = useState<string | null>(null);
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, mutate } = useSWR('/api/remaining', fetcher);
+  // const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  // const { data, mutate } = useSWR('/api/remaining', fetcher);
   const { data: session, status } = useSession();
 
   const options: UploadWidgetConfig = {
@@ -56,9 +56,9 @@ const Home: NextPage = () => {
       if (!isSafe) {
         return { errorMessage: 'Detected a NSFW image which is not allowed.' };
       }
-      if (data.remainingGenerations === 0) {
-        return { errorMessage: 'No more generations left for the day.' };
-      }
+      // if (data.remainingGenerations === 0) {
+      //   return { errorMessage: 'No more generations left for the day.' };
+      // }
       return undefined;
     },
   };
@@ -78,6 +78,7 @@ const Home: NextPage = () => {
               transformationPreset: 'thumbnail',
             },
           });
+          console.log("ImageUrl: ", imageUrl);
           setPhotoName(imageName);
           setOriginalPhoto(imageUrl);
           generatePhoto(imageUrl);
@@ -104,7 +105,7 @@ const Home: NextPage = () => {
     if (res.status !== 200) {
       setError(newPhoto);
     } else {
-      mutate();
+      // mutate();
       setRestoredImage(newPhoto);
     }
     setLoading(false);
@@ -117,9 +118,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header photo={session?.user?.image || undefined} />
+      {/* <Header photo={session?.user?.image || undefined} /> */}
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-4 sm:mb-0 mb-8">
-        <a
+        {/* <a
           className="border shadow-xl flex max-w-md rounded-xl mb-6 hover:scale-[1.02] transition duration-300 ease-in-out"
           href="https://www.roomgpt.io/"
           target="_blank"
@@ -139,11 +140,11 @@ const Home: NextPage = () => {
               ROOMGPT.IO
             </p>
           </div>
-        </a>
+        </a> */}
         <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-900 sm:text-6xl mb-5">
           Restore any face photo
         </h1>
-        {status === 'authenticated' && data && (
+        {/* {status === 'authenticated' && data && (
           <p className="text-slate-500">
             You have{' '}
             <span className="font-semibold">
@@ -155,7 +156,7 @@ const Home: NextPage = () => {
               {data.hours} hours and {data.minutes} minutes.
             </span>
           </p>
-        )}
+        )} */}
         <div className="flex justify-between items-center w-full flex-col mt-4">
           <Toggle
             className={`${restoredLoaded ? 'visible mb-6' : 'invisible'}`}
@@ -181,12 +182,12 @@ const Home: NextPage = () => {
                 ariaLabel="rings-loading"
               />
             </div>
-          ) : status === 'authenticated' && !originalPhoto ? (
+          ) :  !originalPhoto ? (
             <UploadDropZone />
           ) : (
             !originalPhoto && (
               <div className="h-[250px] flex flex-col items-center space-y-6 max-w-[670px] -mt-8">
-                <div className="max-w-xl text-gray-600">
+                {/* <div className="max-w-xl text-gray-600">
                   Sign in below with Google to create a free account and restore
                   your photos today. You will be able to restore 5 photos per
                   day for free.
@@ -202,7 +203,7 @@ const Home: NextPage = () => {
                     alt="google's logo"
                   />
                   <span>Sign in with Google</span>
-                </button>
+                </button> */}
               </div>
             )
           )}
